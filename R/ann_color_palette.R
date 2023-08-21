@@ -1,12 +1,3 @@
-#'
-#'
-#'
-#'
-#'
-#'
-#'
-#'
-#'
 #' @export
 
 
@@ -24,17 +15,39 @@ ann_color_palette = function(color_palette = NULL,
         color_palette = unlist(color_palette)
       }
 
+      ## IF 'COLOR_BY' IS A LIST - UNLIST TO VECTOR ##
+      if(is.list(color_by)){
+        color_by = unlist(color_by)
+      }
+
+      color_by = unique(color_by)
+
+      # if(!is.null(order)){
+      #   if(length(order) == length(color_by)){
+      #     if(is.character(order)){
+      #       idx = match(order, table = color_by)
+      #     }else{
+      #       idx = order
+      #     }
+      #     color_by = color_by[idx]
+      #   }
+      # }
+
 
       ## LOGIC FOR EACH PACKAGE AND PALETTE ##
       if(color_palette[1] == 'ggsci'){
-        common_colors = sprintf("stats::setNames(ggsci::%s(palette = color_palette[3])(length(color_by))[as.numeric(as.factor(unlist(color_by)))], color_by)", color_palette[2])
-      }else if(color_palette[1] == 'RColorBrewer'){
-        common_colors = stats::setNames(RColorBrewer::brewer.pal(n = length(color_by), name = color_palette[2])[as.numeric(as.factor(unlist(color_by)))], color_by)
-      }else if(color_palette[1] == 'grDevices'){
-        common_colors = stats::setNames(grDevices::palette.colors(n = length(color_by), palette = color_palette[2])[as.numeric(as.factor(unlist(color_by)))], color_by)
-      }
+        common_colors = sprintf("stats::setNames(ggsci::%s(palette = color_palette[3])(length(unique(color_by)))[as.numeric(as.factor(unique(color_by)))], unique(color_by))", color_palette[2])
+        return(eval(parse(text = common_colors)))
 
-      return(eval(parse(text = common_colors)))
+      }else if(color_palette[1] == 'RColorBrewer'){
+        common_colors = stats::setNames(RColorBrewer::brewer.pal(n = length(unique(color_by)), name = color_palette[2])[as.numeric(as.factor(unique(color_by)))], unique(color_by))
+        return(common_colors)
+
+      }else if(color_palette[1] == 'grDevices'){
+        common_colors = stats::setNames(grDevices::palette.colors(n = length(unique(color_by)), palette = color_palette[2])[as.numeric(as.factor(unique(color_by)))], unique(color_by))
+        return(common_colors)
+
+      }
 
     }else{
       stop("Please provide a metric to color by via 'color_by'.")

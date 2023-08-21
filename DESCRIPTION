@@ -18,20 +18,21 @@ Author@R: c(
            )
 Maintainer: Steven Mayher <steven.mayher@case.edu>
 Description: A set of tools for efficiently creating and modifying annotation objects / files.
-    
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports: 
-        Rcpp (>= 1.0.11),
-        ggsci,
-        RColorBrewer,
-        grDevices,
-        tibble,
-        stats,
         collapse,
+        data.table,
         dplyr,
-        utils,
-        tools
-LinkingTo: Rcpp
+        ggsci,
+        grDevices,
+        RColorBrewer,
+        stats,
+        tibble,
+        tools,
+        utils
 RoxygenNote: 7.2.3
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
